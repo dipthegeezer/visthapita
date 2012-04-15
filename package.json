@@ -1,0 +1,22 @@
+{
+  "name": "visthapita",
+  "description": "Database migration framework for node.js",
+  "author": "Dipesh Patel <dipthegeezer.opensource@gmail.com>",
+  "bin": "./bin/visthapita",
+  "keywords": ["database", "db", "migrate", "migration", "postgres", "mysql","sql"],
+  "homepage": "https://github.com/dipthegeezer/visthapita",
+  "version": "0.0.1",
+  "engines": { "node" : ">=0.6.0" },
+  "maintainers": [
+    { "name": "Dipesh Patel", "email": "dipthegeezer.opensource@gmail.com" }
+  ],
+  "bugs": { "url": "https://github.com/dipthegeezer/visthapita/issues" },
+  "licenses": [ { "type" : "MIT" } ],
+  "repositories": [
+    { "type": "git", "url": "https://github.com/dipthegeezer/visthapita.git" }
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
