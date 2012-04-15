@@ -16,7 +16,12 @@
     { "type": "git", "url": "https://github.com/dipthegeezer/visthapita.git" }
   ],
   "dependencies": {
+    "commander":"*"
+  , "config":">=0.4.11"
+  , "pg":"*"
+  , "mysql":"*"
   },
   "devDependencies": {
+    "qunit":"*"
   }
 }

@@ -20,6 +20,8 @@ Options:
   --verbose, -v         Verbose mode.                                   [default: false]
   --config              Location of the database.json file.             [default: "./config/*.yaml"]
 
+```
+
 ## Creating Migrations
 
     $ visthapita create add-users
