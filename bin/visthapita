@@ -1,1 +1,59 @@
 #!/usr/bin/env node
+/**
+ * Module dependencies.
+ */
+
+var program = require('commander')
+  , util = require('util');
+
+program
+  .version('0.0.1')
+  .option(
+    '-e, --env <environment>',
+    'The environment to run migrations under.[NODE_ENV]'
+  )
+  .option('-v, --verbose', 'Verbose mode.')
+  .option(
+    '-m, --migrations-dir <dir>',
+    'The directory containing your SQL migration files [./migrations/.]',
+    String,
+    process.cwd() + '/migrations/'
+  )
+  .option(
+    '-c, --config <filepath>',
+    'Location of the config file [./config/.]',
+    String,
+    process.cwd() + '/config/'
+  );
+
+// $ visthapita up stage
+// $ visthapita up
+program
+  .command('up [name]')
+  .description('Migrate up the database. [Default: any that have not previously run.]')
+  .action(function(name){
+    name = name || 'all';
+    util.log(util.inspect(program));
+    console.log('Up for %s', name);
+  });
+
+// $ visthapita down stage
+// $ visthapita down
+program
+  .command('down [name]')
+  .description('Migrate down the database. [Default: last successful \'up\' migration.]')
+  .action(function(name){
+    name = name || 'last';
+    console.log('Down for %s', name);
+  });
+
+// $ visthapita create stage
+// $ visthapita down
+program
+  .command('create <name>')
+  .description('Create database migration files.')
+  .action(function(name){
+    console.log('Create for %s', name);
+  });
+
+program.parse(process.argv);

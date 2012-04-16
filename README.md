@@ -16,7 +16,7 @@ Usage: visthapita [up|down|new] migrationName [options]
 
 Options:
   --env, -e             The environment to run the migrations under.    [default: NODE_ENV]
-  --migrations-dir, -m  The directory containing your SQL migration files.  [default: "./migrations/*.json"]
+  --migrations-dir, -m  The directory containing your SQL migration files.  [default: "./migrations/."]
   --verbose, -v         Verbose mode.                                   [default: false]
   --config              Location of the database.json file.             [default: "./config/*.yaml"]
 
@@ -26,27 +26,23 @@ Options:
 
     $ visthapita create add-users
 
-This will create a file ./migrations/add-users.json.
+This will create a two files ./migrations/up/<datestamp>_add-users.sql and ./migrations/down/<datestamp>_add-users.sql.
 
-    {
-      up : <edit>,
-      down : <edit>
-    }
+All you have to do is populate these with your SQL Command and you are ready to migrate.
 
-All you have to do is populate these with your SQL string and you are ready to migrate.
+For example in up/add-users.sql:
 
-For example :
+CREATE TABLE users( id SERIAL PRIMARY KEY, email TEXT UNIQUE NOT NULL );
 
-    {
-      up: "CREATE TABLE users( id SERIAL PRIMARY KEY, email TEXT UNIQUE NOT NULL )",
-      down : "DROP TABLE users"
-    }
+and in down/add-users.sql
+
+DROP TABLE users
 
 Then just run the migration
 
     $ visthapita up [add-users]
 
-IF there is a problem then rollback. Note if you don't supply a name it will rollbakc the last migration that was run.
+IF there is a problem then rollback. Note if you don't supply a name it will rollback the last migration that was run.
 
     $ visthapita down [add-users]
 
