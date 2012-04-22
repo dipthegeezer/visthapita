@@ -14,7 +14,7 @@ exports['test new Migration three args'] = function(){
 
 exports['test new Migration two args'] = function(){
   var date = new Date();
-  var mig = new Migration(date.getTime()+'-bar.sql' ,'foo');
+  var mig = new Migration('foo', date.getTime()+'-bar.sql');
   mig.should.be.an.instanceof(Migration);
   mig.title.should.equal('bar');
   mig.date.should.equal(date.getTime());
