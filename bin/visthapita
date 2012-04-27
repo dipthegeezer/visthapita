@@ -4,10 +4,11 @@
  */
 
 var program = require('commander')
+  , visthapita = require('../lib/visthapita')
   , util = require('util');
 
 program
-  .version('0.0.1')
+  .version(visthapita.version)
   .option(
     '-e, --env <environment>',
     'The environment to run migrations under.[NODE_ENV]'
