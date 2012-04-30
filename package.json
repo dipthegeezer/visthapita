@@ -23,5 +23,6 @@
   },
   "devDependencies": {
     "should":"*"
+  , "sinon":"*"
   }
 }
