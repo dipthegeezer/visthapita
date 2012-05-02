@@ -14,15 +14,29 @@ suite('Psql', function(){
     var driver = new Driver();
     driver.should.be.an.instanceof(Psql);
   });
-  test('#apply()', function(done){
+  test('#up()', function(done){
     mockPg.expects('connect').yields(null, {
-      query: function (sql, callback) {
-        sql.should.match(/^BEGIN|TEST|COMMIT;$/);
+      query: function () {
+        var sql = arguments[0];
+        var callback = arguments[arguments.length - 1];
+        sql.should.match(/BEGIN|TEST|COMMIT|INSERT/);
         callback();
       }
     });
     var driver = new Driver();
-    driver.apply("TEST;",done);
+    driver.up({up : "TEST;",name:"foo"},done);
+  });
+  test('#down()', function(done){
+    mockPg.expects('connect').yields(null, {
+      query: function () {
+        var sql = arguments[0];
+        var callback = arguments[arguments.length - 1];
+        sql.should.match(/BEGIN|TEST|COMMIT|DELETE/);
+        callback();
+      }
+    });
+    var driver = new Driver();
+    driver.down({down : "TEST;",name:"foo"},done);
   });
 });
 
