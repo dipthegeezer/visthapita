@@ -1,6 +1,6 @@
-var should = require('should');
-var Driver = require('../../lib/Driver/Psql');
-var sinon = require('sinon');
+var should = require('should')
+  , Driver = require('../../lib/Driver/Psql')
+  , sinon = require('sinon');
 
 suite('Psql', function(){
   var mockPg;
@@ -37,6 +37,47 @@ suite('Psql', function(){
     });
     var driver = new Driver();
     driver.down({down : "TEST;",name:"foo"},done);
+  });
+  test('#down()', function(done){
+    mockPg.expects('connect').yields(null, {
+      query: function () {
+        var sql = arguments[0];
+        var callback = arguments[arguments.length - 1];
+        sql.should.match(/BEGIN|TEST|COMMIT|DELETE/);
+        callback();
+      }
+    });
+    var driver = new Driver();
+    driver.down({down : "TEST;",name:"foo"},done);
+  });
+  test('#createMigration() table already exists', function(done){
+    mockPg.expects('connect').yields(null, {
+      query: function () {
+        var sql = arguments[0];
+        var callback = arguments[arguments.length - 1];
+        if(sql.match(/pg_tables/)){
+          callback(null,{rows:["foo"]});
+        }
+      }
+    });
+    var driver = new Driver();
+    driver.createMigration(function(results){done();});
+  });
+  test('#createMigration()', function(done){
+    mockPg.expects('connect').yields(null, {
+      query: function () {
+        var sql = arguments[0];
+        var callback = arguments[arguments.length - 1];
+        if(sql.match(/pg_tables/)){
+          callback(null,{rows:[]});
+        }
+        if(sql.match(/CREATE/)){
+          callback();
+        }
+      }
+    });
+    var driver = new Driver();
+    driver.createMigration(done);
   });
 });
 
