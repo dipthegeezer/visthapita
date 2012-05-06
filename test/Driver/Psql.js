@@ -50,7 +50,7 @@ suite('Psql', function(){
     var driver = new Driver();
     driver.down({down : "TEST;",name:"foo"},done);
   });
-  test('#createMigration() table already exists', function(done){
+  test('#createMigrationsTable() table already exists', function(done){
     mockPg.expects('connect').yields(null, {
       query: function () {
         var sql = arguments[0];
@@ -61,9 +61,9 @@ suite('Psql', function(){
       }
     });
     var driver = new Driver();
-    driver.createMigration(function(results){done();});
+    driver.createMigrationsTable(function(results){done();});
   });
-  test('#createMigration()', function(done){
+  test('#createMigrationsTable()', function(done){
     mockPg.expects('connect').yields(null, {
       query: function () {
         var sql = arguments[0];
@@ -77,7 +77,7 @@ suite('Psql', function(){
       }
     });
     var driver = new Driver();
-    driver.createMigration(done);
+    driver.createMigrationsTable(done);
   });
 });
 
