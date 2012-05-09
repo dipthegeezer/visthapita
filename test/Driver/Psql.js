@@ -1,5 +1,6 @@
 var should = require('should')
   , Driver = require('../../lib/Driver/Psql')
+  , Migration = require('../../lib/Migration')
   , sinon = require('sinon');
 
 suite('Psql', function(){
@@ -78,6 +79,23 @@ suite('Psql', function(){
     });
     var driver = new Driver();
     driver.createMigrationsTable(done);
+  });
+  test('#getAppliedMigrations', function(done){
+    var date = new Date();
+    mockPg.expects('connect').yields(null, {
+      query: function () {
+        var callback = arguments[arguments.length - 1];
+        callback(null,{ rows:[{name:date.getTime()+"-baboon_baby"}]});
+      }
+    });
+    var driver = new Driver();
+    driver.getAppliedMigrations("foo",function(mig){
+      mig.length.should.equal(1);
+      mig[0].should.be.an.instanceof(Migration);
+      mig[0].title.should.equal('baboon_baby');
+      mig[0].date.getTime().should.equal(date.getTime());
+      done();
+    });
   });
 });
 
