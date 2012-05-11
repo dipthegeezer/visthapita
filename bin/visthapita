@@ -4,7 +4,7 @@
  */
 
 var program = require('commander')
-  , visthapita = require('../lib/visthapita')
+  , visthapita = require(__dirname+'/../lib/visthapita')
   , util = require('util');
 
 program
@@ -16,15 +16,15 @@ program
   .option('-v, --verbose', 'Verbose mode.')
   .option(
     '-m, --migrations-dir <dir>',
-    'The directory containing your SQL migration files [./migrations/.]',
+    'The directory containing your SQL migration files [./migrations]',
     String,
-    process.cwd() + '/migrations/'
+    process.cwd() + '/migrations'
   )
   .option(
-    '-c, --config <filepath>',
-    'Location of the config file [./config/.]',
+    '-c, --config-dir <dir>',
+    'Location of your config files [./config]',
     String,
-    process.cwd() + '/config/'
+    process.cwd() + '/config'
   );
 
 // $ visthapita up stage

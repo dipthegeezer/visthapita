@@ -1,6 +1,6 @@
 var should = require('should')
-  , Driver = require('../../lib/Driver/Psql')
-  , Migration = require('../../lib/Migration')
+  , Driver = require(__dirname+'/../../lib/Driver/Psql')
+  , Migration = require(__dirname+'/../../lib/Migration')
   , sinon = require('sinon');
 
 suite('Psql', function(){

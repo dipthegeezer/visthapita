@@ -1,5 +1,5 @@
 var should = require('should');
-var visthapita = require('../lib/visthapita');
+var visthapita = require(__dirname+'/../lib/visthapita');
 
 suite('visthapita', function(){
   test('version should be a string', function(){

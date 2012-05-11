@@ -1,5 +1,5 @@
 var should = require('should');
-var Migration = require('../lib/Migration');
+var Migration = require(__dirname+'/../lib/Migration');
 
 suite('Migration', function(){
   test('#new(dir,title,date)', function(){
