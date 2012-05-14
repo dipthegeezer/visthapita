@@ -10,8 +10,17 @@ suite('visthapita', function(){
   test('#version', function(){
     visthapita.version.should.be.a('string');
   });
+
   test('#create()', function(){
 
+  });
+
+  test('#getDriver() throws Error on unknown', function(){
+    (function(){
+       visthapita.getDriver({driver:'foo'});
+     }).should.throw(
+      "Unknown Database driver:foo"
+    );
   });
 
   test( '#up_all()', function(){

@@ -12,7 +12,7 @@ suite('Psql', function(){
     mockPg.restore();
   });
   test('#new()', function(){
-    var driver = new Driver();
+    var driver = new Driver({});
     driver.should.be.an.instanceof(Psql);
   });
   test('#up()', function(done){
@@ -24,7 +24,7 @@ suite('Psql', function(){
         callback();
       }
     });
-    var driver = new Driver();
+    var driver = new Driver({});
     driver.up({up : "TEST;",name:"foo"},done);
   });
   test('#down()', function(done){
@@ -36,7 +36,7 @@ suite('Psql', function(){
         callback();
       }
     });
-    var driver = new Driver();
+    var driver = new Driver({});
     driver.down({down : "TEST;",name:"foo"},done);
   });
   test('#createMigrationsTable() table already exists', function(done){
@@ -49,7 +49,7 @@ suite('Psql', function(){
         }
       }
     });
-    var driver = new Driver();
+    var driver = new Driver({});
     driver.createMigrationsTable(done);
   });
   test('#createMigrationsTable()', function(done){
@@ -65,7 +65,7 @@ suite('Psql', function(){
         }
       }
     });
-    var driver = new Driver();
+    var driver = new Driver({});
     driver.createMigrationsTable(done);
   });
   test('#getAppliedMigrations', function(done){
@@ -76,7 +76,7 @@ suite('Psql', function(){
         callback(null,{ rows:[{name:date.getTime()+"-baboon_baby"}]});
       }
     });
-    var driver = new Driver();
+    var driver = new Driver({});
       driver.getAppliedMigrations("foo",function(err,mig){
       mig.length.should.equal(1);
       mig[0].should.be.an.instanceof(Migration);
