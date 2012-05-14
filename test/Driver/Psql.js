@@ -39,18 +39,6 @@ suite('Psql', function(){
     var driver = new Driver();
     driver.down({down : "TEST;",name:"foo"},done);
   });
-  test('#down()', function(done){
-    mockPg.expects('connect').yields(null, {
-      query: function () {
-        var sql = arguments[0];
-        var callback = arguments[arguments.length - 1];
-        sql.should.match(/BEGIN|TEST|COMMIT|DELETE/);
-        callback();
-      }
-    });
-    var driver = new Driver();
-    driver.down({down : "TEST;",name:"foo"},done);
-  });
   test('#createMigrationsTable() table already exists', function(done){
     mockPg.expects('connect').yields(null, {
       query: function () {
@@ -62,7 +50,7 @@ suite('Psql', function(){
       }
     });
     var driver = new Driver();
-    driver.createMigrationsTable(function(results){done();});
+    driver.createMigrationsTable(done);
   });
   test('#createMigrationsTable()', function(done){
     mockPg.expects('connect').yields(null, {
@@ -89,7 +77,7 @@ suite('Psql', function(){
       }
     });
     var driver = new Driver();
-    driver.getAppliedMigrations("foo",function(mig){
+      driver.getAppliedMigrations("foo",function(err,mig){
       mig.length.should.equal(1);
       mig[0].should.be.an.instanceof(Migration);
       mig[0].title.should.equal('baboon_baby');

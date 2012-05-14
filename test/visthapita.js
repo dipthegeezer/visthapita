@@ -1,17 +1,25 @@
-var should = require('should');
-var visthapita = require(__dirname+'/../lib/visthapita');
+var should = require('should')
+  , visthapita = require(__dirname+'/../lib/visthapita')
+  , sinon = require('sinon');
 
 suite('visthapita', function(){
-  test('version should be a string', function(){
+  setup(function(){
+  });
+  teardown(function(){
+  });
+  test('#version', function(){
     visthapita.version.should.be.a('string');
   });
+  test('#create()', function(){
 
-  test('create', function(){
   });
 
-  test( 'up', function(){
+  test( '#up_all()', function(){
   });
 
-  test( 'down', function(){
+  test( '#up()', function(){
+  });
+
+  test( '#down', function(){
   });
 });
