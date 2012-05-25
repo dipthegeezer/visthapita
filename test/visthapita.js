@@ -73,5 +73,22 @@ suite('visthapita', function(){
   });
 
   test( '#down()', function(){
+    var date = new Date();
+    mockPg.expects('connect').yields(null, {
+      query: function () {
+        var callback = arguments[arguments.length - 1];
+        var sql = arguments[0];
+        if(sql.match(/SELECT/)){
+          callback(null,{ rows:[{name:date.getTime()+"-baboon_baby"}]});
+        }
+        else{
+          callback();
+        }
+      }
+    });
+    visthapita.down({driver:'psql',dir:'/tmp/migration'},'foo',
+    function(err,result){
+      done(err);
+    });
   });
 });
