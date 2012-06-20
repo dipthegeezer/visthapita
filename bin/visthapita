@@ -15,13 +15,13 @@ program
   )
   .option('-v, --verbose', 'Verbose mode.')
   .option(
-    '-m, --migrations-dir <dir>',
+    '-m, --migrations_dir <dir>',
     'The directory containing your SQL migration files [./migrations]',
     String,
     process.cwd() + '/migrations'
   )
   .option(
-    '-c, --config-dir <dir>',
+    '-c, --config_dir <dir>',
     'Location of your config files [./config]',
     String,
     process.cwd() + '/config'
@@ -38,23 +38,38 @@ program
     console.log('Up for %s', name);
   });
 
-// $ visthapita down stage
 // $ visthapita down
 program
-  .command('down [name]')
+  .command('down')
   .description('Migrate down the database. [Default: last successful \'up\' migration.]')
-  .action(function(name){
-    name = name || 'last';
-    console.log('Down for %s', name);
+  .action(function(){
+    console.log('Down');
   });
 
 // $ visthapita create stage
-// $ visthapita down
 program
   .command('create <name>')
   .description('Create database migration files.')
   .action(function(name){
-    console.log('Create for %s', name);
+    process.env.NODE_ENV = program.env || process.env.NODE_ENV;
+    process.env.NODE_CONFIG_DIR = program.config_dir;
+    var config = {
+      driver: 'psql',
+      host: 'localhost',
+      port: 5432,
+      user: 'dslabb',
+      password: 'dslabb',
+      database: 'dslabb'
+    };
+    config.dir = program.migrations_dir;
+    visthapita.create(config, name, function(err,result){
+      if(err){
+        util.log("Error:"+util.inspect(err));
+        process.exit(1);
+      }
+      util.log("Created " + result.name);
+      process.exit();
+    });
   });
 
 program.parse(process.argv);
