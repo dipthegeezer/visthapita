@@ -56,14 +56,18 @@ suite('visthapita', function(){
         }
       }
     });
-    var stub = sinon.stub(fs, "writeFileSync");
-    visthapita.create({driver:'psql',dir:'/tmp/migration'},'foo',
+    visthapita.create({driver:'psql',dir:'/tmp/'},'foo',
     function(err,migration){
       migration.should.be.instanceof(Migration);
       migration.title.should.equal('foo');
+      fs.statSync(migration.down_path).size.should.equal(0);
+      fs.statSync(migration.up_path).size.should.equal(0);
+      fs.unlinkSync(migration.down_path);
+      fs.unlinkSync(migration.up_path);
+      fs.rmdirSync('/tmp/up');
+      fs.rmdirSync('/tmp/down');
       done();
     });
-    stub.restore();
   });
 
   test( '#up_all()', function(){
