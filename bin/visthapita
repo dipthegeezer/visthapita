@@ -33,6 +33,18 @@ program
   .command('up [name]')
   .description('Migrate up the database. [Default: any that have not previously run.]')
   .action(function(name){
+    process.env.NODE_ENV = program.env || process.env.NODE_ENV;
+    process.env.NODE_CONFIG_DIR = program.config_dir;
+    var config = require('config');
+    var data = {
+      driver: config.driver,
+      host: config.host,
+      port: config.port,
+      user: config.user,
+      password: config.password,
+      database: config.database,
+      dir: program.migrations_dir
+    };
     name = name || 'all';
     util.log(util.inspect(program));
     console.log('Up for %s', name);
@@ -43,6 +55,18 @@ program
   .command('down')
   .description('Migrate down the database. [Default: last successful \'up\' migration.]')
   .action(function(){
+    process.env.NODE_ENV = program.env || process.env.NODE_ENV;
+    process.env.NODE_CONFIG_DIR = program.config_dir;
+    var config = require('config');
+    var data = {
+      driver: config.driver,
+      host: config.host,
+      port: config.port,
+      user: config.user,
+      password: config.password,
+      database: config.database,
+      dir: program.migrations_dir
+    };
     console.log('Down');
   });
 
@@ -53,16 +77,18 @@ program
   .action(function(name){
     process.env.NODE_ENV = program.env || process.env.NODE_ENV;
     process.env.NODE_CONFIG_DIR = program.config_dir;
-    var config = {
-      driver: 'psql',
-      host: 'localhost',
-      port: 5432,
-      user: 'dslabb',
-      password: 'dslabb',
-      database: 'dslabb'
+    var config = require('config');
+
+    var data = {
+      driver: config.driver,
+      host: config.host,
+      port: config.port,
+      user: config.user,
+      password: config.password,
+      database: config.database,
+      dir: program.migrations_dir
     };
-    config.dir = program.migrations_dir;
-    visthapita.create(config, name, function(err,result){
+    visthapita.create(data, name, function(err,result){
       if(err){
         util.log("Error:"+util.inspect(err));
         process.exit(1);
