@@ -45,9 +45,20 @@ program
       database: config.database,
       dir: program.migrations_dir
     };
-    name = name || 'all';
-    util.log(util.inspect(program));
-    console.log('Up for %s', name);
+    if(name){
+      util.log(util.inspect(program));
+      console.log('Up for %s', name);
+    }
+    else{
+      visthapita.up_all(data, function(err,result){
+        if(err){
+          util.log("Error:"+util.inspect(err));
+          process.exit(1);
+        }
+        util.log("Created " + util.inspect(result));
+        process.exit();
+      });
+    }
   });
 
 // $ visthapita down
@@ -67,7 +78,14 @@ program
       database: config.database,
       dir: program.migrations_dir
     };
-    console.log('Down');
+    visthapita.down(data, function(err,result){
+      if(err){
+        util.log("Error:"+util.inspect(err));
+        process.exit(1);
+      }
+      util.log("Removed " + util.inspect(result));
+      process.exit();
+    });
   });
 
 // $ visthapita create stage
